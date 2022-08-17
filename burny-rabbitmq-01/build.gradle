@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public' }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.7.1'
+    }
+}
+
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+group 'com.burny.rabbitmq'
+version '1.0-SNAPSHOT'
+
+repositories {
+    // 本地
+    mavenLocal()
+    // 阿里云
+    maven {
+        url 'https://maven.aliyun.com/repository/public'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/gradle-plugin'
+    }
+    // 中央仓库
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'com.rabbitmq:amqp-client:5.15.0'
+    implementation 'commons-io:commons-io:2.11.0'
+}
+
+test {
+    useJUnitPlatform()
+}

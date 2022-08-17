@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'com.burny.rabbitmq'
+version '1.0-SNAPSHOT'
+
+repositories {
+    // 本地
+    mavenLocal()
+    // 阿里云
+    maven {
+        url 'https://maven.aliyun.com/repository/public'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/gradle-plugin'
+    }
+    // 中央仓库
+    mavenCentral()
+
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
