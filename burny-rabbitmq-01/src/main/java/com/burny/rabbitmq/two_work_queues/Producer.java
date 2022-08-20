@@ -2,6 +2,7 @@ package com.burny.rabbitmq.two_work_queues;
 
 import com.burny.rabbitmq.common.Info;
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.MessageProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Scanner;
@@ -15,21 +16,20 @@ import java.util.Scanner;
 @Slf4j
 public class Producer {
 
-    //队列名称
-    public static final String queue_name = "hello";
-
-    public static final String content = "hello world";
-
     public static void main(String[] args) throws Exception {
         Channel channel = Info.getC();
         //exclusive:消息是否被共享
-        channel.queueDeclare(queue_name, true, true, false, null);
+        channel.queueDeclare(Info.queue_name, true, false, false, null);
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String next = scanner.next();
-            for (int i = 0; i < 100; i++) {
-                channel.basicPublish("", queue_name, null, (next + i).getBytes());
-            }
+            //for (int i = 0; i < 1000000; i++) {
+            //    log.info("发送一次"+i);
+            //消息持久化
+            channel.basicPublish("", Info.queue_name, MessageProperties.PERSISTENT_TEXT_PLAIN, (next).getBytes("UTF-8"));
+
+            //channel.basicPublish("", Info.queue_name, null, (next).getBytes("UTF-8"));
+            //}
         }
 
     }

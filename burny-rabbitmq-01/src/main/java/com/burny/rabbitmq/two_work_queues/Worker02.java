@@ -14,19 +14,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class Worker01 {
+public class Worker02 {
 
 
     @SneakyThrows
     public static void main(String[] args) {
         Channel channel = Info.getC();
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+            //log.info("noSleep");
             log.info(Info.pre + new String(delivery.getBody()));
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             //long deliveryTag = delivery.getEnvelope().getDeliveryTag();
             //log.info(String.valueOf(deliveryTag));
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
@@ -34,10 +30,7 @@ public class Worker01 {
         CancelCallback callback = (consumerTag) -> {
             log.info(Info.callback);
         };
-        //设置成不公平分发,即能者多劳,
-        channel.basicQos(1);
-        //按比例分发,只有存在客户端迟迟未应答才会生效
-        channel.basicQos(2);
+        channel.basicQos(8);
 
         channel.basicConsume(Info.queue_name, false, deliverCallback, callback);
 

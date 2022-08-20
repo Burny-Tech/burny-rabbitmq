@@ -22,6 +22,7 @@ public class Info {
 
     public static final String callback = "消费者取消消费的回调";
 
+
     @SneakyThrows
     public static Channel getC() {
         ConnectionFactory factory = new ConnectionFactory();
