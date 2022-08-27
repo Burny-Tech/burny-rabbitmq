@@ -32,4 +32,9 @@ public class Info {
     public static final String rt_b_custtl_to_d = "rt_b_custtl_to_d";
 
 
+    public static final String delay_queue_name = "delay_queue_name";
+    public static final String delay_exchange_name = "delay_exchange_name";
+    public static final String rt_delay_exchange_name_to_delay_queue_name = "rt_delay_exchange_name_to_delay_queue_name";
+
+
 }

@@ -45,8 +45,14 @@ public class SendMsgController {
         log.info("当前时间{},发送一条消息给自定义TTL队列,TTL 时间:{} ,消息内:{}", LocalDateTime.now(), ttl, data);
 
         rabbitTemplate.convertAndSend(Info.busi_exchange, Info.rt_b_ex_to_custtl, data, message -> {
+            //message.getMessageProperties().setExpiration(String.valueOf(ttl * 1000));
             message.getMessageProperties().setExpiration(String.valueOf(ttl * 1000));
             return message;
+        });
+
+        rabbitTemplate.convertAndSend(Info.delay_exchange_name, Info.rt_delay_exchange_name_to_delay_queue_name, data + ttl, propertis -> {
+            propertis.getMessageProperties().setDelay(ttl * 1000);
+            return propertis;
         });
 
     }

@@ -23,4 +23,10 @@ public class TTLConsumerListener {
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
         log.info("当前时间:{},获取消息:{}", LocalDateTime.now(), msg);
     }
+
+    @RabbitListener(queues = Info.delay_queue_name)
+    public void delay(Message message, Channel channel) throws Exception {
+        String msg = new String(message.getBody(), StandardCharsets.UTF_8);
+        log.info("类型:{},当前时间:{},获取消息:{}", "延迟插件", LocalDateTime.now(), msg);
+    }
 }
