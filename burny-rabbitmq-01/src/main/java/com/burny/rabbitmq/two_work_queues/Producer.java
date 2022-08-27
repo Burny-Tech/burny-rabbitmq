@@ -18,6 +18,7 @@ public class Producer {
 
     public static void main(String[] args) throws Exception {
         Channel channel = Info.getC();
+        channel.confirmSelect();
         //exclusive:消息是否被共享
         channel.queueDeclare(Info.queue_name, true, false, false, null);
         Scanner scanner = new Scanner(System.in);

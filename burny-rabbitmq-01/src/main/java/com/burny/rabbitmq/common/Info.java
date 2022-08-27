@@ -16,7 +16,13 @@ public class Info {
     public static final String username = "root";
     public static final String password = "root";
 
-    public static final String queue_name = "hello";
+    public static final String queue_name = "hello_queue";
+
+    public static final String exchange_name = "hello_exchange";
+    public static final String dead_exchange_name = "dead_hello_exchange";
+    public static final String dead_queue_name = "dead_hello_queue";
+    public static final String dead_routing_key = "dead_routing_key";
+
 
     public static final String pre = "接收到消息: ";
 
@@ -30,10 +36,15 @@ public class Info {
         factory.setUsername(username);
         factory.setPassword(password);
         //创建连接
-        Connection connection = factory.newConnection();
-        //获取信道
-        Channel channel = connection.createChannel();
-        return channel;
+        Channel channel;
+        try (Connection connection = factory.newConnection()) {
+            //获取信道
+            channel = connection.createChannel();
+            return channel;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
