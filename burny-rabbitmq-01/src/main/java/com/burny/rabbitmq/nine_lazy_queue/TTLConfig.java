@@ -62,6 +62,7 @@ public class TTLConfig {
         return QueueBuilder
                 .durable(Info.busi_queue2)
                 .ttl(40 * 1000)
+                .expires(30 * 1000)
                 .deadLetterExchange(Info.dead_exchange)
                 .deadLetterRoutingKey(Info.rt_q1_to_d_ex)
                 .build();
@@ -87,6 +88,21 @@ public class TTLConfig {
     @Bean
     public Binding dead_queue12dead_exchange(@Qualifier(Info.dead_queue1) Queue dead_queue1, @Qualifier(Info.dead_exchange) DirectExchange dead_exchange) {
         return BindingBuilder.bind(dead_queue1).to(dead_exchange).with(Info.rt_d_ex_to_dq);
+    }
+
+
+    @Bean(Info.busi_custtl_queue)
+    public Queue busi_custtl_queue() {
+        return QueueBuilder
+                .durable(Info.busi_custtl_queue)
+                .deadLetterExchange(Info.dead_exchange)
+                .deadLetterRoutingKey(Info.rt_b_custtl_to_d)
+                .build();
+    }
+
+    @Bean
+    public Binding busi_custtl_queue2dead_exchange(@Qualifier(Info.busi_custtl_queue) Queue busi_custtl_queue, @Qualifier(Info.dead_exchange) DirectExchange dead_exchange) {
+        return BindingBuilder.bind(busi_custtl_queue).to(dead_exchange).with(Info.rt_b_ex_to_custtl);
     }
 
 

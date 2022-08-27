@@ -27,4 +27,9 @@ public class Info {
     public static final String consumer = null;
 
 
+    public static final String busi_custtl_queue = " busi_custtl_queue";
+    public static final String rt_b_ex_to_custtl = "rt_b_ex_to_custtl";
+    public static final String rt_b_custtl_to_d = "rt_b_custtl_to_d";
+
+
 }

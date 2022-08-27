@@ -36,4 +36,18 @@ public class SendMsgController {
         rabbitTemplate.convertAndSend(Info.busi_exchange, Info.rt_b_ex_to_q2, "40s" + data);
     }
 
+    @GetMapping("/sendMsg/{data}/{ttl}")
+    public void sendMsg(@PathVariable(value = "data") String data, @PathVariable(value = "ttl") Integer ttl) {
+        log.info("当前时间{},发送一条消息给两个TTL队列:{}", LocalDateTime.now(), data);
+
+        rabbitTemplate.convertAndSend(Info.busi_exchange, Info.rt_b_ex_to_q1, "10s" + data);
+        rabbitTemplate.convertAndSend(Info.busi_exchange, Info.rt_b_ex_to_q2, "40s" + data);
+        log.info("当前时间{},发送一条消息给自定义TTL队列,TTL 时间:{} ,消息内:{}", LocalDateTime.now(), ttl, data);
+
+        rabbitTemplate.convertAndSend(Info.busi_exchange, Info.rt_b_ex_to_custtl, data, message -> {
+            message.getMessageProperties().setExpiration(String.valueOf(ttl * 1000));
+            return message;
+        });
+    }
+
 }
