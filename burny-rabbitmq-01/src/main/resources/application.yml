@@ -16,4 +16,6 @@ spring:
     port: 5672
     virtual-host: /
     connection-timeout: 20000
+    publisher-confirm-type: CORRELATED
+
 

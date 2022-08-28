@@ -20,6 +20,6 @@ public class Consumer {
 
     @RabbitListener(queues = Info.busi_quque)
     public void confirm(Message properties) {
-        log.info("接收到的内容:{}", new String(properties.getBody(), StandardCharsets.UTF_8));
+        log.info("消费者:接收到的内容:{}", new String(properties.getBody(), StandardCharsets.UTF_8));
     }
 }
