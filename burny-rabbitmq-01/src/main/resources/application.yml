@@ -17,5 +17,8 @@ spring:
     virtual-host: /
     connection-timeout: 20000
     publisher-confirm-type: CORRELATED
+    publisher-returns: true
+    template:
+      mandatory: true
 
 

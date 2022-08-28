@@ -32,14 +32,23 @@ public class ProController {
         log.info("生产者:发送内容:{}", data);
         data = "生产者:" + data;
         //发送正确
-        rabbitTemplate.convertAndSend(Info.busi_exchange, Info.busi_exchange_to_busi_quque, data, correlationData);
+        //rabbitTemplate.convertAndSend(Info.busi_exchange, Info.busi_exchange_to_busi_quque, data, correlationData);
         //错误的交换机 结果: 交换机确认回调:
         //2022-08-28 13:57:24.607  INFO 24612 --- [nectionFactory6] c.b.r.ten_confirm.ExchangeCallBack       : 交换机确认回调:交换机已经收到消息并且处理失败,ID为id,原因:channel error; protocol method: #method<channel.close>(reply-code=404, reply-text=NOT_FOUND - no exchange 'c_busi_exchangeps' in vhost '/', class-id=60, method-id=40)
-        rabbitTemplate.convertAndSend(Info.busi_exchange + "ps", Info.busi_exchange_to_busi_quque, data, correlationData);
+        //rabbitTemplate.convertAndSend(Info.busi_exchange + "ps", Info.busi_exchange_to_busi_quque, data, correlationData);
         //错误的队列 (routingkey不同) 总结:只要到达交换机就确认
         //结果
         //2022-08-28 13:57:24.612  INFO 24612 --- [nectionFactory6] c.b.r.ten_confirm.ExchangeCallBack       : 交换机确认回调:交换机已经收到消息并且成功处理,ID为id
-        rabbitTemplate.convertAndSend(Info.busi_exchange, Info.busi_exchange_to_busi_quque + "sss", data, correlationData);
+
+        //rabbitTemplate.convertAndSend(Info.busi_exchange, Info.busi_exchange_to_busi_quque + "sss", data, correlationData);
+        //void confirm(@Nullable CorrelationData correlationData, boolean ack, @Nullable String cause);
+
+        //rabbitTemplate.setConfirmCallback((c,ack,cause)->{
+        //log.info("生产端:消息被回退"+c.getReturned().getReplyText()+"ack:"+ack+"cause:"+cause);
+        //});
+        rabbitTemplate.convertAndSend(Info.busi_exchange, Info.busi_exchange_to_busi_quque + "ddd", data, correlationData);
+
+
         //}
     }
 

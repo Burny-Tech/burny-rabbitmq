@@ -1,6 +1,7 @@
 package com.burny.rabbitmq.ten_confirm;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import javax.annotation.PostConstruct;
  */
 @Slf4j
 @Configuration
-public class ExchangeCallBack implements RabbitTemplate.ConfirmCallback {
+public class ExchangeCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
 
 
     @Autowired
@@ -24,6 +25,7 @@ public class ExchangeCallBack implements RabbitTemplate.ConfirmCallback {
     @PostConstruct
     public void init() {
         rabbitTemplate.setConfirmCallback(this);
+        rabbitTemplate.setReturnsCallback(this);
     }
 
     /**
@@ -49,5 +51,11 @@ public class ExchangeCallBack implements RabbitTemplate.ConfirmCallback {
         } else {
             log.info("交换机确认回调:交换机已经收到消息并且处理失败,ID为{},原因:{}", correlationData != null ? correlationData.getId() : "", cause);
         }
+    }
+
+    //只有在不可达目的地的时候才进行回退
+    @Override
+    public void returnedMessage(ReturnedMessage returned) {
+        log.info("交换机与队列:有消息被回退 交换机:{},消息内容:{},退回原因:{},路由key:{}", returned.getExchange(), new String(returned.getMessage().getBody()), returned.getReplyCode() + returned.getReplyText(), returned.getRoutingKey());
     }
 }
