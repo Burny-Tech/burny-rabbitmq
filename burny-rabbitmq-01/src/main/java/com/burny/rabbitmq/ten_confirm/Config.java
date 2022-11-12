@@ -30,4 +30,6 @@ public class Config {
     public Binding busi_exchange_to_busi_quque(@Qualifier(Info.busi_quque) Queue busi_quque, @Qualifier(Info.busi_exchange) DirectExchange busi_exchange) {
         return BindingBuilder.bind(busi_quque).to(busi_exchange).with(Info.busi_exchange_to_busi_quque);
     }
+
+
 }

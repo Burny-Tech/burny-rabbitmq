@@ -1,5 +1,5 @@
 server:
-  port: 10001
+  port: 10009
 
 
 burny:
@@ -12,7 +12,8 @@ spring:
   rabbitmq:
     username: root
     password: root
-    host: 192.168.1.176
+    # host: 192.168.1.176
+    host: 192.168.1.128
     port: 5672
     virtual-host: /
     connection-timeout: 20000
